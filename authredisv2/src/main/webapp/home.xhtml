@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Home</title>
+    <h:outputStylesheet name="styles.css" /> <!-- Link to your CSS file -->
+</h:head>
+<h:body>
+
+    <h:form>
+        <h:commandButton value="Logout" action="#{loginBean.logout}" />
+    </h:form>
+
+    <h:panelGrid columns="1">
+        <h:outputText value="Welcome, #{loginBean.email}!" />
+        <!-- Add more content here as needed -->
+    </h:panelGrid>
+
+</h:body>
+</html>
