@@ -29,7 +29,6 @@ public class LoginBean implements Serializable {
     private HttpServletRequest request;
 
     public String login() {
-        // Replace with actual user authentication
         Optional<User> userOptional = userService.getUserByUsername(username);
 
         if (userOptional.isPresent() && userOptional.get().getPassword().equals(password)) {
@@ -53,7 +52,8 @@ public class LoginBean implements Serializable {
     }
 
     public String checkLogin() {
-        if (!loggedIn) {
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("username") == null) {
             return "login.xhtml?faces-redirect=true";
         }
         return null;

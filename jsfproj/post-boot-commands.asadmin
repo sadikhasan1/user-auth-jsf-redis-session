@@ -2,8 +2,10 @@
 create-jdbc-connection-pool --datasourceclassname=org.postgresql.ds.PGConnectionPoolDataSource --restype=javax.sql.ConnectionPoolDataSource --property user=dynamic:password=dynamic:databaseName=authtest:serverName=db:portNumber=5432 authtestpool
 
 # Create the JDBC resource
-#create-jdbc-resource --connectionpoolid authtestpool jdbc/projscratch
-create-jdbc-resource --connectionpoolid authtestpool jdbc/projscratch
+#create-jdbc-resource --connectionpoolid authtestpool jdbc/AuthTest
+create-jdbc-resource --connectionpoolid authtestpool jdbc/AuthTest
 
 # Deploy the application
 deploy /opt/payara/appserver/glassfish/domains/domain1/autodeploy/authredis-1.0-SNAPSHOT.war
+
+set server.session.timeout=30

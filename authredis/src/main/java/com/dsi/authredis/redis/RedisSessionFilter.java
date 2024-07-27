@@ -21,6 +21,7 @@ public class RedisSessionFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
+        System.out.println("RedisSessionFilter init");
         jedisPool = new JedisPool("localhost", 6379);
     }
 
@@ -36,7 +37,9 @@ public class RedisSessionFilter implements Filter {
         RedisHttpServletRequestWrapper wrappedRequest = new RedisHttpServletRequestWrapper(req, session);
         RedisHttpServletResponseWrapper wrappedResponse = new RedisHttpServletResponseWrapper(res, session);
 
+
         chain.doFilter(wrappedRequest, wrappedResponse);
+
 
         saveSession(session);
     }
