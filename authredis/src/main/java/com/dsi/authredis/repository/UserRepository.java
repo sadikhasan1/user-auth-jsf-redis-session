@@ -48,19 +48,19 @@ public class UserRepository extends BaseRepository<User> {
         return executeForSingleResult(query);
     }
 
-    public Optional<User> findByEmailAndPassword(String email, String password) {
+    public Optional<User> findByUsernameAndPassword(String username, String password) {
         TypedQuery<User> query = getEntityManager().createQuery(
-                "SELECT u FROM User u WHERE u.email = :email AND u.password = :password", User.class);
-        query.setParameter("email", email);
+                "SELECT u FROM User u WHERE u.username = :username AND u.password = :password", User.class);
+        query.setParameter("username", username);
         query.setParameter("password", password);
 
         return executeForSingleResult(query);
     }
 
-    public Optional<User> findByEmail(String email) {
+    public Optional<User> findByUsername(String username) {
         TypedQuery<User> query = getEntityManager().createQuery(
-                "SELECT u FROM User u WHERE u.email = :email", User.class);
-        query.setParameter("email", email);
+                "SELECT u FROM User u WHERE u.username = :username", User.class);
+        query.setParameter("username", username);
 
         return executeForSingleResult(query);
     }

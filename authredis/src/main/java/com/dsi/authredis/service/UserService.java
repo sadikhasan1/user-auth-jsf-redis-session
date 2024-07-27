@@ -13,8 +13,8 @@ public class UserService {
     @EJB
     private UserRepository userRepository;
 
-    public Optional<User> getUserByEmail(String email) {
-        return userRepository.findByEmail(email);
+    public Optional<User> getUserByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 
     public Optional<User> getUserByPhoneNumber(String phoneNumber) {
@@ -25,7 +25,7 @@ public class UserService {
         return userRepository.findByPhoneNumberAndPassword(phoneNumber, password);
     }
 
-    public Optional<User> getUserByEmailAndPassword(String email, String password) {
-        return userRepository.findByEmailAndPassword(email, password);
+    public Optional<User> getUserByUsernameAndPassword(String username, String password) {
+        return userRepository.findByUsernameAndPassword(username, password);
     }
 }
