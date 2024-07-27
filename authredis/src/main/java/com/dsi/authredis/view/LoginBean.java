@@ -1,8 +1,10 @@
 package com.dsi.authredis.view;
 
 import com.dsi.authredis.entity.User;
+import com.dsi.authredis.redis.SessionManager;
 import com.dsi.authredis.service.UserService;
 import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,7 +17,6 @@ import java.util.Optional;
 @Named
 @SessionScoped
 public class LoginBean implements Serializable {
-    @Serial
     private static final long serialVersionUID = 1L;
 
     private String username;
@@ -32,10 +33,10 @@ public class LoginBean implements Serializable {
         Optional<User> userOptional = userService.getUserByUsername(username);
 
         if (userOptional.isPresent() && userOptional.get().getPassword().equals(password)) {
+            String sessionId = FacesContext.getCurrentInstance().getExternalContext().getSessionId(true);
+            SessionManager.storeSession(sessionId, username);
             loggedIn = true;
-            HttpSession session = request.getSession(true);
-            session.setAttribute("username", username);
-            return "home.xhtml?faces-redirect=true";
+            return "home.xhtml";
         } else {
             loggedIn = false;
             return "login.xhtml";
@@ -43,20 +44,17 @@ public class LoginBean implements Serializable {
     }
 
     public String logout() {
-        HttpSession session = request.getSession(false);
-        if (session != null) {
-            session.invalidate();
-        }
+        String sessionId = FacesContext.getCurrentInstance().getExternalContext().getSessionId(false);
+        SessionManager.deleteSession(sessionId);
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         loggedIn = false;
-        return "login.xhtml?faces-redirect=true";
+        return "login.xhtml";
     }
 
     public String checkLogin() {
-        HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("username") == null) {
-            return "login.xhtml?faces-redirect=true";
-        }
-        return null;
+        String sessionId = FacesContext.getCurrentInstance().getExternalContext().getSessionId(false);
+        String username = SessionManager.getSession(sessionId);
+        return username != null ? "home.xhtml" : "login.xhtml";
     }
 
     // Getters and setters for username and password
